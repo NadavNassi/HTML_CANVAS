@@ -8,23 +8,36 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body onload="init(event)" onresize="resizeCanvas()">
-    <div class="select-container">
-        <input type="number" class="max-shape-size" oninput="onSetMaxSize(this)" placeholder="max size" min="0" max="75" />
-        <label for="fillSelector">Choose fill color</label>
-        <input id="fillSelector" type="color" class="fill-selector" onchange="setFillColor(this.value)" />
-        <label for="strokeSelector">Choose stroke color</label>
-        <input id="strokeSelector" type="color" class="stroke-selector" onchange="setStrokeColor(this.value)" />
-        <select class="shape-selector" onchange="setShape(this.value)">
-            <option value="circle">Circle</option>
-            <option value="square">Square</option>
-        </select>
-        <button >Save</button>
-        <button onclick="clearCanvas()">Clear</button>
+    <div class="main">
+        <div class="select-container">
+            <a href="#" onclick="downloadImg(this)">
+                <i class="fas fa-file-image img-icon"></i>
+            </a>
+            <div class="share-container"></div>
+            <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                <input name="img" id="imgData" type="hidden" />
+                <button class="btn" type="submit">Publish</button>
+              </form>
+            <input type="number" class="max-shape-size" oninput="onSetMaxSize(this)" placeholder="max size" min="0" max="75" />
+            <label for="fillSelector">Choose fill color</label>
+            <input id="fillSelector" type="color" class="fill-selector" onchange="setFillColor(this.value)" />
+            <label for="strokeSelector">Choose stroke color</label>
+            <input id="strokeSelector" type="color" class="stroke-selector" onchange="setStrokeColor(this.value)" />
+            <select class="shape-selector" onchange="setShape(this.value)">
+                <option value="circle">Circle</option>
+                <option value="square">Square</option>
+            </select>
+            <button >Save</button>
+            <button onclick="clearCanvas()">Clear</button>
+        </div>
+        <div class="canvas-container">
+            <canvas id="my-canvas" width="450px" height="450px"></canvas>
+        </div>
     </div>
-    <div class="canvas-container">
-        <canvas id="my-canvas" width="450px" height="450px"></canvas>
-    </div>
-    <!-- <script src="lib/hammer.min.js"></script> -->
+    <script src="https://kit.fontawesome.com/402c8e958b.js" crossorigin="anonymous"></script>
+    <script src="lib/hammer.min.js"></script>
+    <script src="./js/service/download-service.js"></script>
+    <script src="./js/service/upload-service.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

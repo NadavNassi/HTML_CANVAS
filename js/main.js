@@ -7,9 +7,9 @@ let gIsDrawing = false;
 let gX = 0;
 let gY = 0;
 
-let gDiff = 50
 let gLineWidth = 10
 let gMaxSize = 75
+let gDiff = gMaxSize * 1.2
 
 let gDrawCurrShape = drawArc
 let gFillColor
@@ -21,37 +21,56 @@ function init() {
     gStrokeColor = document.querySelector('.stroke-selector').value
     gCanvas = document.querySelector('#my-canvas');
     gCtx = gCanvas.getContext('2d')
+    // gCtx.restore()
     resizeCanvas()
-    gCanvas.addEventListener('mousedown', ev => {
-        gX = ev.offsetX
-        gY = ev.offsetY
-        gIsDrawing = true
-    })
-    gCanvas.addEventListener('mousemove', ev => {
-        if(Math.abs(ev.offsetX - gX) < gDiff && Math.abs(ev.offsetY - gY) < gDiff) return;
-        if (gIsDrawing === true) {
-            gDrawCurrShape(gX, gY);
-            gX = ev.offsetX;
-            gY = ev.offsetY;
-        }
-    })
-    window.addEventListener('mouseup', ev => {
-        if (gIsDrawing === true) {
-            gDrawCurrShape(gX, gY);
-          gX = 0;
-          gY = 0;
-          gIsDrawing = false;
-        }
-      })
+    var hammertime = new Hammer(gCanvas);
+    hammertime.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+    hammertime.on('panstart', onPressDown)
+    hammertime.on('pan', onPanMove)
+    hammertime.on('pressup', onPressUp)
 }
 
-function  onSetMaxSize(elMaxSize) {
-    if(elMaxSize.value < 1 || elMaxSize.value > 75) {
+function onPressDown(ev) {
+    ev.preventDefault()
+    gX = ev.center.x
+    gY = ev.center.y
+    gIsDrawing = true
+}
+
+function onPanMove(ev) {
+    ev.preventDefault()
+    if (Math.abs(ev.center.x - gX) < gDiff && Math.abs(ev.center.y - gY) < gDiff) return;
+    if (gIsDrawing === true) {
+        gDrawCurrShape(gX, gY);
+        gX = ev.center.x;
+        gY = ev.center.y;
+    }
+}
+
+function onPressUp(ev) {
+    ev.preventDefault()
+    if (gIsDrawing === true) {
+        gDrawCurrShape(gX, gY);
+        gX = 0;
+        gY = 0;
+        gIsDrawing = false;
+    }
+}
+
+// function onSave(ev) {
+//     gCtx.save();
+// }
+
+
+
+function onSetMaxSize(elMaxSize) {
+    if (elMaxSize.value < 1 || elMaxSize.value > 75) {
         alert('MAX SIZE VALUE HAS TO BE BETWEEN 1 AND 75')
         elMaxSize.value = ''
         return;
     }
     gMaxSize = elMaxSize.value
+    gDiff = gMaxSize * 1.2
 }
 
 
@@ -90,7 +109,7 @@ function drawRect(x, y) {
 }
 
 function setShape(shape) {
-    if(shape === 'circle') gDrawCurrShape = drawArc
+    if (shape === 'circle') gDrawCurrShape = drawArc
     else gDrawCurrShape = drawRect
 }
 

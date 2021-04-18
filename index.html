@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mister Canvas</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body onload="init(event)" onresize="resizeCanvas()">
+    <div class="select-container">
+        <input type="number" class="max-shape-size" oninput="onSetMaxSize(this)" placeholder="max size" min="0" max="75" />
+        <label for="fillSelector">Choose fill color</label>
+        <input id="fillSelector" type="color" class="fill-selector" onchange="setFillColor(this.value)" />
+        <label for="strokeSelector">Choose stroke color</label>
+        <input id="strokeSelector" type="color" class="stroke-selector" onchange="setStrokeColor(this.value)" />
+        <select class="shape-selector" onchange="setShape(this.value)">
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+        </select>
+        <button >Save</button>
+        <button onclick="clearCanvas()">Clear</button>
+    </div>
+    <div class="canvas-container">
+        <canvas id="my-canvas" width="450px" height="450px"></canvas>
+    </div>
+    <!-- <script src="lib/hammer.min.js"></script> -->
+    <script src="js/main.js"></script>
+</body>
+</html>

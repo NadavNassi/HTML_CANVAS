@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+}
+
+.select-container {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 2px solid black;
+    padding: 10px;
+    z-index: 100;
+    width:fit-content;
+}
+
+.select-container>*:not(:last-child) {
+    margin-inline-end: 5px;
+}
+
+.canvas-container {
+    width: 100vw;
+    height: 100vh;
+    left: 50%;
+    top: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    z-index: 0;
+}
